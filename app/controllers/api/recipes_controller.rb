@@ -42,8 +42,15 @@ class Api::RecipesController < ApplicationController
     @recipe.prep_time = params[:prep_time] || @recipe.prep_time
     @recipe.image_url = params[:image_url] || @recipe.image_url
 
-    @recipe.save
-    render 'show.json.jb'
+    # @recipe.save
+    # render 'show.json.jb'
+
+    if @recipe.save
+      render "show.json.jb"
+    else
+      render json: {errors: @recipe.errors.messages}, status: :unprocessable_entity
+    end
+
   end
 
   def destroy
